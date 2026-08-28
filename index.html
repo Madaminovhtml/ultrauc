@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULTRA UC — PUBG Mobile UC xizmati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0806;
+    --bg-alt:#100d09;
+    --bg-raise:#17130d;
+    --gold:#d4af37;
+    --gold-bright:#f5d772;
+    --gold-dim:#8a7024;
+    --gold-soft:rgba(212,175,55,.14);
+    --steel:#1c2733;
+    --steel-line:#2a3846;
+    --text:#f3ecdc;
+    --text-dim:#a99d84;
+    --text-faint:#786c56;
+    --danger:#e2574c;
+    --success:#4caf7d;
+    --radius:16px;
+    --radius-sm:10px;
+    --shadow-gold: 0 0 0 1px rgba(212,175,55,.25), 0 18px 40px -20px rgba(0,0,0,.8);
+    --ease:cubic-bezier(.22,.9,.35,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.brand,.logo-word{
+    font-family:'Cinzel',serif;
+    letter-spacing:.03em;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  img,svg{display:block;max-width:100%;}
+
+  ::selection{background:var(--gold-soft);color:var(--gold-bright);}
+
+  :focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px;}
+
+  /* ---------- shared ---------- */
+  .container{
+    width:min(1180px, 92%);
+    margin-inline:auto;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.72rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold));
+  }
+
+  .section-title{
+    font-size:clamp(1.7rem, 3.4vw, 2.6rem);
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:12px;
+  }
+  .section-title em{
+    font-style:normal;
+    color:var(--gold-bright);
+  }
+  .section-sub{
+    color:var(--text-dim);
+    max-width:560px;
+    font-size:1rem;
+  }
+  .section-head{
+    text-align:center;
+    margin:0 auto 52px;
+    max-width:640px;
+  }
+
+  section{
+    position:relative;
+    padding:100px 0;
+  }
+
+  .divider-sigil{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 22px;
+    width:46px;height:46px;
+    opacity:.9;
+  }
+
+  /* ---------- ember particles ---------- */
+  .embers{
+    position:absolute;inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .embers span{
+    position:absolute;
+    bottom:-10px;
+    width:3px;height:3px;
+    border-radius:50%;
+    background:var(--gold-bright);
+    box-shadow:0 0 8px 2px rgba(245,215,114,.6);
+    animation:rise linear infinite;
+    opacity:0;
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0);opacity:0;}
+    10%{opacity:.8;}
+    90%{opacity:.4;}
+    100%{transform:translateY(-620px) translateX(var(--drift,20px));opacity:0;}
+  }
+
+  /* ---------- navbar ---------- */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:200;
+    background:rgba(10,8,6,.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid rgba(212,175,55,.14);
+    transition:background .3s var(--ease);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    line-height:1;
+    gap:2px;
+    font-weight:800;
+  }
+  .brand .l1{
+    font-size:1.05rem;
+    letter-spacing:.32em;
+    color:var(--text);
+  }
+  .brand .l2{
+    font-size:1.55rem;
+    letter-spacing:.14em;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold-dim));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 22px rgba(212,175,55,.25);
+  }
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px;
+  }
+  .nav-links a{
+    font-size:.92rem;
+    font-weight:600;
+    color:var(--text-dim);
+    position:relative;
+    padding:6px 0;
+    transition:color .25s var(--ease);
+  }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;bottom:0;
+    width:0%;height:1px;
+    background:var(--gold-bright);
+    transition:width .3s var(--ease);
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+
+  .nav-cta{
+    padding:10px 22px;
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim));
+    color:#151007;
+    font-weight:800;
+    font-size:.85rem;
+    letter-spacing:.03em;
+    box-shadow:0 8px 22px -8px rgba(212,175,55,.6);
+    transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(212,175,55,.8);}
+
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    width:28px;
+    z-index:201;
+  }
+  .hamburger span{
+    height:2px;width:100%;
+    background:var(--gold-bright);
+    border-radius:2px;
+    transition:transform .3s var(--ease), opacity .3s var(--ease);
+  }
+  .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.active span:nth-child(2){opacity:0;}
+  .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-panel{
+    position:fixed;
+    inset:0 0 0 auto;
+    width:min(320px,80%);
+    height:100vh;
+    background:var(--bg-alt);
+    border-left:1px solid var(--steel-line);
+    z-index:190;
+    padding:100px 30px 30px;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    transform:translateX(100%);
+    transition:transform .4s var(--ease);
+  }
+  .mobile-panel.open{transform:translateX(0);}
+  .mobile-panel a{font-size:1.1rem;font-weight:700;color:var(--text);}
+  .scrim{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:180;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s var(--ease);
+  }
+  .scrim.open{opacity:1;pointer-events:auto;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    align-items:center;
+    padding:140px 0 100px;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,175,55,.16), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(28,39,51,.5), transparent 70%),
+      linear-gradient(180deg,#0a0806 0%, #0d0a07 60%, #0a0806 100%),
+      url("hero.jpg");
+    background-size:cover;
+    background-position:center;
+    overflow:hidden;
+    text-align:center;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0px, transparent 1px, transparent 3px);
+    pointer-events:none;
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    margin-inline:auto;
+    max-width:760px;
+  }
+  .hero-crest{
+    width:64px;height:64px;
+    margin:0 auto 26px;
+    opacity:.95;
+    filter:drop-shadow(0 0 18px rgba(212,175,55,.45));
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 8vw, 5.2rem);
+    font-weight:900;
+    letter-spacing:.05em;
+    background:linear-gradient(180deg,#fff6de 10%, var(--gold-bright) 45%, var(--gold-dim) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 10px 60px rgba(212,175,55,.25);
+    line-height:1.05;
+  }
+  .hero-tagline{
+    margin-top:18px;
+    font-family:'Cinzel',serif;
+    font-size:clamp(.9rem,2vw,1.15rem);
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .hero-desc{
+    margin:26px auto 0;
+    max-width:520px;
+    color:var(--text-dim);
+    font-size:1.05rem;
+  }
+  .hero-actions{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:16px 34px;
+    border-radius:999px;
+    font-weight:800;
+    font-size:.95rem;
+    letter-spacing:.02em;
+    transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim));
+    color:#171106;
+    box-shadow:0 14px 34px -12px rgba(212,175,55,.65);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px -12px rgba(212,175,55,.85);}
+  .btn-ghost{
+    border:1px solid rgba(212,175,55,.4);
+    color:var(--text);
+    background:rgba(255,255,255,.02);
+  }
+  .btn-ghost:hover{background:rgba(212,175,55,.08);border-color:var(--gold-bright);}
+
+  .hero-stats{
+    margin-top:64px;
+    display:flex;
+    justify-content:center;
+    gap:clamp(24px,6vw,64px);
+    flex-wrap:wrap;
+  }
+  .hero-stats .stat b{
+    display:block;
+    font-family:'Cinzel',serif;
+    font-size:1.6rem;
+    color:var(--gold-bright);
+  }
+  .hero-stats .stat span{
+    font-size:.78rem;
+    color:var(--text-faint);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- pricing ---------- */
+  .tariffs{background:var(--bg-alt);}
+  .uc-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  }
+  .uc-card{
+    position:relative;
+    background:linear-gradient(160deg, var(--bg-raise), rgba(23,19,13,.4));
+    border:1px solid rgba(212,175,55,.16);
+    border-radius:var(--radius);
+    padding:26px 22px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(24px);
+    transition:transform .5s var(--ease), opacity .5s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .uc-card.in-view{opacity:1;transform:translateY(0);}
+  .uc-card::before{
+    content:"";
+    position:absolute;
+    top:-40%;left:-20%;
+    width:60%;height:180%;
+    background:linear-gradient(120deg, transparent, rgba(212,175,55,.08), transparent);
+    transform:rotate(20deg);
+    opacity:0;
+    transition:opacity .4s var(--ease);
+  }
+  .uc-card:hover{
+    border-color:rgba(212,175,55,.55);
+    box-shadow:var(--shadow-gold), 0 0 34px -6px rgba(212,175,55,.25);
+    transform:translateY(-6px);
+  }
+  .uc-card:hover::before{opacity:1;}
+  .uc-card.popular{
+    border-color:rgba(212,175,55,.65);
+    background:linear-gradient(160deg, rgba(212,175,55,.1), var(--bg-raise) 60%);
+  }
+  .badge-popular{
+    position:absolute;
+    top:14px;right:-30px;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim));
+    color:#171106;
+    font-size:.62rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:5px 34px;
+    transform:rotate(35deg);
+    box-shadow:0 6px 14px -4px rgba(0,0,0,.5);
+  }
+  .uc-amount{
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    font-family:'Cinzel',serif;
+    font-weight:700;
+  }
+  .uc-amount .gem{font-size:1.2rem;}
+  .uc-amount .num{font-size:1.5rem;color:var(--text);}
+  .uc-amount .unit{font-size:.85rem;color:var(--text-faint);}
+  .uc-price{
+    font-size:1.05rem;
+    font-weight:800;
+    color:var(--gold-bright);
+  }
+  .uc-price sup{font-size:.6em;color:var(--text-faint);font-weight:600;margin-left:2px;}
+  .uc-buy{
+    margin-top:auto;
+    padding:11px;
+    text-align:center;
+    border-radius:var(--radius-sm);
+    border:1px solid rgba(212,175,55,.35);
+    font-weight:700;
+    font-size:.85rem;
+    letter-spacing:.03em;
+    color:var(--text);
+    background:rgba(212,175,55,.06);
+    transition:background .25s var(--ease), color .25s var(--ease), transform .2s var(--ease);
+  }
+  .uc-buy:hover{
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim));
+    color:#171106;
+    transform:scale(1.02);
+  }
+
+  /* ---------- how it works ---------- */
+  .how-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+  }
+  .how-card{
+    background:var(--bg-raise);
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius);
+    padding:34px 26px;
+    text-align:center;
+    position:relative;
+  }
+  .how-icon{
+    width:58px;height:58px;
+    margin:0 auto 20px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(212,175,55,.18),transparent 70%);
+    border:1px solid rgba(212,175,55,.3);
+    font-size:1.6rem;
+  }
+  .how-card h3{
+    font-size:1.15rem;
+    margin-bottom:10px;
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+  }
+  .how-card p{color:var(--text-dim);font-size:.92rem;}
+  .how-step{
+    position:absolute;
+    top:16px;left:20px;
+    font-family:'Cinzel',serif;
+    font-size:.75rem;
+    color:var(--text-faint);
+    letter-spacing:.1em;
+  }
+
+  /* ---------- faq ---------- */
+  .faq-wrap{max-width:760px;margin:0 auto;}
+  .faq-item{
+    border-bottom:1px solid var(--steel-line);
+  }
+  .faq-q{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 4px;
+    text-align:left;
+    font-weight:700;
+    font-size:1rem;
+    color:var(--text);
+  }
+  .faq-q .plus{
+    font-size:1.3rem;
+    color:var(--gold-bright);
+    transition:transform .3s var(--ease);
+    flex:0 0 auto;
+    margin-left:16px;
+  }
+  .faq-item.open .plus{transform:rotate(135deg);}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s var(--ease);
+    color:var(--text-dim);
+    font-size:.94rem;
+  }
+  .faq-a p{padding:0 4px 22px;}
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    max-width:640px;
+    margin:0 auto;
+    text-align:center;
+    background:linear-gradient(160deg, rgba(212,175,55,.08), var(--bg-raise));
+    border:1px solid rgba(212,175,55,.25);
+    border-radius:var(--radius);
+    padding:56px 40px;
+  }
+  .contact-box .tg-handle{
+    display:block;
+    margin:8px 0 26px;
+    font-family:'Cinzel',serif;
+    font-size:1.5rem;
+    color:var(--gold-bright);
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:50px 0 34px;
+    border-top:1px solid var(--steel-line);
+    text-align:center;
+  }
+  footer .brand{align-items:center;margin-bottom:10px;}
+  footer p{color:var(--text-faint);font-size:.85rem;margin-top:4px;}
+
+  /* ---------- modal ---------- */
+  .modal-scrim{
+    position:fixed;inset:0;
+    background:rgba(6,5,3,.72);
+    backdrop-filter:blur(4px);
+    display:flex;
+    align-items:center;justify-content:center;
+    z-index:300;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s var(--ease);
+    padding:20px;
+  }
+  .modal-scrim.open{opacity:1;pointer-events:auto;}
+  .modal-box{
+    width:min(420px,100%);
+    background:var(--bg-raise);
+    border:1px solid rgba(212,175,55,.3);
+    border-radius:var(--radius);
+    padding:34px 30px 28px;
+    position:relative;
+    transform:translateY(24px) scale(.97);
+    transition:transform .35s var(--ease);
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.7), 0 0 40px -10px rgba(212,175,55,.25);
+  }
+  .modal-scrim.open .modal-box{transform:translateY(0) scale(1);}
+  .modal-close{
+    position:absolute;top:16px;right:18px;
+    font-size:1.3rem;
+    color:var(--text-faint);
+    transition:color .2s;
+  }
+  .modal-close:hover{color:var(--gold-bright);}
+  .modal-box h3{
+    font-size:1.3rem;
+    margin-bottom:4px;
+  }
+  .modal-sub{color:var(--text-faint);font-size:.8rem;margin-bottom:22px;letter-spacing:.05em;text-transform:uppercase;}
+  .modal-summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(212,175,55,.08);
+    border:1px solid rgba(212,175,55,.2);
+    border-radius:var(--radius-sm);
+    padding:14px 18px;
+    margin-bottom:22px;
+  }
+  .modal-summary .amt{font-family:'Cinzel',serif;font-weight:700;color:var(--text);}
+  .modal-summary .prc{color:var(--gold-bright);font-weight:800;}
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-size:.78rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:7px;
+  }
+  .field input{
+    width:100%;
+    padding:13px 14px;
+    background:var(--bg-alt);
+    border:1px solid var(--steel-line);
+    border-radius:var(--radius-sm);
+    color:var(--text);
+    font-size:.95rem;
+    transition:border-color .25s;
+  }
+  .field input:focus{border-color:var(--gold-bright);outline:none;}
+  .field .err{
+    color:var(--danger);
+    font-size:.78rem;
+    margin-top:6px;
+    display:none;
+  }
+  .field.invalid input{border-color:var(--danger);}
+  .field.invalid .err{display:block;}
+  .modal-buy-btn{
+    width:100%;
+    margin-top:8px;
+    padding:15px;
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim));
+    color:#171106;
+    font-weight:800;
+    font-size:.95rem;
+    transition:transform .2s var(--ease);
+  }
+  .modal-buy-btn:hover{transform:translateY(-2px);}
+
+  .success-view{text-align:center;display:none;}
+  .success-view.show{display:block;}
+  .order-form.hide{display:none;}
+  .success-icon{
+    width:60px;height:60px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:rgba(76,175,125,.15);
+    border:1px solid rgba(76,175,125,.5);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;
+    color:var(--success);
+  }
+  .success-view h3{margin-bottom:8px;}
+  .success-view p{color:var(--text-dim);font-size:.92rem;margin-bottom:22px;}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .6s var(--ease), transform .6s var(--ease);
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .nav-cta{display:none;}
+    .hamburger{display:flex;}
+    .how-grid{grid-template-columns:1fr;}
+    section{padding:70px 0;}
+  }
+  @media (max-width:600px){
+    .uc-grid{grid-template-columns:1fr 1fr;}
+    .uc-card{padding:18px 14px 16px;}
+    .uc-amount .num{font-size:1.2rem;}
+    .hero{padding:120px 0 70px;min-height:auto;}
+    .hero-stats{gap:28px;}
+    .contact-box{padding:40px 22px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="brand">
+      <span class="l1">ULTRA</span>
+      <span class="l2">UC</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#top">Bosh sahifa</a>
+      <a href="#tariffs">UC Tariflar</a>
+      <a href="#how">Qanday ishlaydi?</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Aloqa</a>
+    </nav>
+    <a href="#tariffs" class="nav-cta">UC sotib olish</a>
+    <button class="hamburger" id="hamburger" aria-label="Menyu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<nav class="mobile-panel" id="mobilePanel">
+  <a href="#top">Bosh sahifa</a>
+  <a href="#tariffs">UC Tariflar</a>
+  <a href="#how">Qanday ishlaydi?</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Aloqa</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="embers" id="embers"></div>
+  <div class="container hero-content">
+    <svg class="hero-crest" viewBox="0 0 100 100" fill="none">
+      <path d="M50 8 L58 30 L80 20 L72 42 L92 46 L72 54 L84 74 L62 66 L58 90 L50 70 L42 90 L38 66 L16 74 L28 54 L8 46 L28 42 L20 20 L42 30 Z" stroke="url(#g1)" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="50" cy="50" r="9" stroke="url(#g1)" stroke-width="2"/>
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stop-color="#f5d772"/>
+          <stop offset="100%" stop-color="#8a7024"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <h1>ULTRA UC</h1>
+    <p class="hero-tagline">PUBG Mobile UC xizmati</p>
+    <p class="hero-desc">PUBG Mobile UC'ni tez, qulay va ishonchli tarzda xarid qiling.</p>
+    <div class="hero-actions">
+      <a href="#tariffs" class="btn btn-primary" id="heroCta">⚔ UC sotib olish</a>
+      <a href="#how" class="btn btn-ghost">Qanday ishlaydi?</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>16</b><span>UC Paket</span></div>
+      <div class="stat"><b>5–15 min</b><span>Yetkazish</span></div>
+      <div class="stat"><b>24/7</b><span>Qo'llab-quvvatlash</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TARIFFS ============ -->
+<section class="tariffs" id="tariffs">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Narxlar</div>
+      <h2 class="section-title">UC <em>Tariflari</em></h2>
+      <p class="section-sub" style="margin-inline:auto;">O'zingizga mos paketni tanlang va bir necha daqiqada UC hisobingizga tushsin.</p>
+    </div>
+    <div class="uc-grid" id="ucGrid"></div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Jarayon</div>
+      <h2 class="section-title">Qanday <em>ishlaydi?</em></h2>
+      <p class="section-sub" style="margin-inline:auto;">Uch bosqichda buyurtmangizni rasmiylashtiring.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <span class="how-step">01</span>
+        <div class="how-icon">💎</div>
+        <h3>UC tarifini tanlang</h3>
+        <p>Sizga kerakli UC miqdorini tanlang va "Sotib olish" tugmasini bosing.</p>
+      </div>
+      <div class="how-card reveal">
+        <span class="how-step">02</span>
+        <div class="how-icon">🎮</div>
+        <h3>Player ID kiriting</h3>
+        <p>PUBG Mobile Player ID va Telegram username'ingizni kiriting.</p>
+      </div>
+      <div class="how-card reveal">
+        <span class="how-step">03</span>
+        <div class="how-icon">⚡</div>
+        <h3>Buyurtmani tasdiqlang</h3>
+        <p>Buyurtmangiz qabul qilinadi va UC tez orada hisobingizga tushadi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="tariffs" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Savollar</div>
+      <h2 class="section-title">Tez-tez <em>so'raladigan savollar</em></h2>
+    </div>
+    <div class="faq-wrap reveal" id="faqWrap">
+      <div class="faq-item">
+        <button class="faq-q">UC qancha vaqtda tushadi? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Odatda buyurtma tasdiqlangandan so'ng 5–15 daqiqa ichida UC hisobingizga tushadi.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Player ID nima? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Player ID — bu sizning PUBG Mobile profilingizdagi noyob raqamli identifikator. Uni o'yin ichidagi profil bo'limidan topishingiz mumkin.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Buyurtma uchun nima kerak? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Sizga faqat PUBG Mobile Player ID va Telegram username kerak bo'ladi. Boshqa hech qanday ma'lumot talab qilinmaydi.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Muammo bo'lsa qayerga murojaat qilaman? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Har qanday savol yoki muammo yuzasidan Telegram orqali @ULTRA_UC bilan bog'lanishingiz mumkin.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-box reveal">
+      <div class="eyebrow" style="justify-content:center;">Aloqa</div>
+      <h2 class="section-title">Savol yoki buyurtma bormi?</h2>
+      <span class="tg-handle">@ULTRA_UC</span>
+      <a href="https://t.me/ULTRA_UC" target="_blank" rel="noopener" class="btn btn-primary">Telegram orqali yozish</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="brand" style="display:inline-flex;">
+      <span class="l1">ULTRA</span>
+      <span class="l2">UC</span>
+    </div>
+    <p>PUBG Mobile UC xizmatlari</p>
+    <p>© 2026 ULTRA UC</p>
+  </div>
+</footer>
+
+<!-- ============ BUY MODAL ============ -->
+<div class="modal-scrim" id="modalScrim">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="order-form" id="orderForm">
+      <h3>ULTRA UC</h3>
+      <p class="modal-sub">Buyurtmani rasmiylashtirish</p>
+      <div class="modal-summary">
+        <div>
+          <div style="font-size:.72rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;">Tanlangan paket</div>
+          <div class="amt" id="modalAmount">— UC</div>
+        </div>
+        <div class="prc" id="modalPrice">— UZS</div>
+      </div>
+      <div class="field" id="fieldPlayer">
+        <label for="playerId">PUBG Mobile Player ID</label>
+        <input type="text" id="playerId" placeholder="Masalan: 5123456789" inputmode="numeric">
+        <div class="err">Player ID kiriting</div>
+      </div>
+      <div class="field" id="fieldTg">
+        <label for="tgUser">Telegram username</label>
+        <input type="text" id="tgUser" placeholder="@username">
+        <div class="err">Telegram username kiriting</div>
+      </div>
+      <button class="modal-buy-btn" id="submitOrder">BUY NOW</button>
+    </div>
+    <div class="success-view" id="successView">
+      <div class="success-icon">✓</div>
+      <h3>Buyurtma qabul qilindi!</h3>
+      <p>Tez orada Telegram orqali siz bilan bog'lanamiz va UC hisobingizga o'tkaziladi.</p>
+      <button class="btn btn-primary" id="closeSuccess" style="width:100%;justify-content:center;">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- UC packages data ---------- */
+  var packages = [
+    {uc:60, price:"14 000"},
+    {uc:120, price:"28 000"},
+    {uc:180, price:"42 000"},
+    {uc:325, price:"65 000", popular:true},
+    {uc:720, price:"139 000"},
+    {uc:1320, price:"250 000"},
+    {uc:1800, price:"320 000"},
+    {uc:2125, price:"385 000"},
+    {uc:2460, price:"445 000"},
+    {uc:3850, price:"590 000"},
+    {uc:4510, price:"715 000"},
+    {uc:5650, price:"910 000"},
+    {uc:8100, price:"1 250 000"},
+    {uc:11950, price:"1 840 000"},
+    {uc:24300, price:"3 750 000"},
+    {uc:81000, price:"12 500 000"}
+  ];
+
+  var grid = document.getElementById('ucGrid');
+  packages.forEach(function(pkg, i){
+    var card = document.createElement('div');
+    card.className = 'uc-card reveal' + (pkg.popular ? ' popular' : '');
+    card.style.transitionDelay = (i * 40) + 'ms';
+    card.innerHTML =
+      (pkg.popular ? '<span class="badge-popular">Eng mashhur</span>' : '') +
+      '<div class="uc-amount"><span class="gem">💎</span><span class="num">' + pkg.uc.toLocaleString('ru-RU') + '</span><span class="unit">UC</span></div>' +
+      '<div class="uc-price">' + pkg.price + ' <sup>UZS</sup></div>' +
+      '<button class="uc-buy" data-uc="' + pkg.uc + '" data-price="' + pkg.price + '">Sotib olish</button>';
+    grid.appendChild(card);
+  });
+
+  /* ---------- scroll reveal ---------- */
+  var revealTargets = document.querySelectorAll('.reveal, .uc-card');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.15});
+  revealTargets.forEach(function(el){ io.observe(el); });
+
+  /* ---------- embers ---------- */
+  var emberBox = document.getElementById('embers');
+  for(var i=0;i<24;i++){
+    var e = document.createElement('span');
+    var left = Math.random()*100;
+    var dur = 6 + Math.random()*8;
+    var delay = Math.random()*10;
+    var drift = (Math.random()*60-30) + 'px';
+    e.style.left = left + '%';
+    e.style.animationDuration = dur + 's';
+    e.style.animationDelay = delay + 's';
+    e.style.setProperty('--drift', drift);
+    emberBox.appendChild(e);
+  }
+
+  /* ---------- mobile nav ---------- */
+  var hamburger = document.getElementById('hamburger');
+  var mobilePanel = document.getElementById('mobilePanel');
+  var scrim = document.getElementById('scrim');
+
+  function closeMenu(){
+    hamburger.classList.remove('active');
+    mobilePanel.classList.remove('open');
+    scrim.classList.remove('open');
+  }
+  hamburger.addEventListener('click', function(){
+    hamburger.classList.toggle('active');
+    mobilePanel.classList.toggle('open');
+    scrim.classList.toggle('open');
+  });
+  scrim.addEventListener('click', closeMenu);
+  mobilePanel.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ---------- navbar shrink on scroll ---------- */
+  var navHeader = document.querySelector('header.nav');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 30){
+      navHeader.style.background = 'rgba(10,8,6,.9)';
+    } else {
+      navHeader.style.background = 'rgba(10,8,6,.72)';
+    }
+  });
+
+  /* ---------- FAQ accordion ---------- */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(other){
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ---------- buy modal ---------- */
+  var modalScrim = document.getElementById('modalScrim');
+  var modalAmount = document.getElementById('modalAmount');
+  var modalPrice = document.getElementById('modalPrice');
+  var orderForm = document.getElementById('orderForm');
+  var successView = document.getElementById('successView');
+  var playerIdInput = document.getElementById('playerId');
+  var tgUserInput = document.getElementById('tgUser');
+  var fieldPlayer = document.getElementById('fieldPlayer');
+  var fieldTg = document.getElementById('fieldTg');
+
+  function openModal(uc, price){
+    modalAmount.textContent = Number(uc).toLocaleString('ru-RU') + ' UC';
+    modalPrice.textContent = price + ' UZS';
+    orderForm.classList.remove('hide');
+    successView.classList.remove('show');
+    playerIdInput.value = '';
+    tgUserInput.value = '';
+    fieldPlayer.classList.remove('invalid');
+    fieldTg.classList.remove('invalid');
+    modalScrim.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modalScrim.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.uc-buy');
+    if(btn){
+      openModal(btn.getAttribute('data-uc'), btn.getAttribute('data-price'));
+    }
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modalScrim.addEventListener('click', function(e){
+    if(e.target === modalScrim) closeModal();
+  });
+  document.getElementById('closeSuccess').addEventListener('click', closeModal);
+
+  document.getElementById('submitOrder').addEventListener('click', function(){
+    var valid = true;
+    if(playerIdInput.value.trim() === ''){
+      fieldPlayer.classList.add('invalid');
+      valid = false;
+    } else {
+      fieldPlayer.classList.remove('invalid');
+    }
+    if(tgUserInput.value.trim() === ''){
+      fieldTg.classList.add('invalid');
+      valid = false;
+    } else {
+      fieldTg.classList.remove('invalid');
+    }
+    if(!valid) return;
+
+    orderForm.classList.add('hide');
+    successView.classList.add('show');
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeModal();
+  });
+
+})();
+</script>
+</body>
+</html>
